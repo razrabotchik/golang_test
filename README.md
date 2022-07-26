@@ -4,6 +4,7 @@ Before runing:
 cp .env.sample .env
 </code>
 
+
 Edit .env file and fill data for params:
 
 - `FILE_PATH`
@@ -29,6 +30,7 @@ To run use command:
 <code>
 go run main.go --id=tt0000002 --titleType=short
 </code>
+
 
 Tests:
 
