@@ -3,72 +3,34 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/joho/godotenv"
-	"infoftex/infra"
-	"log"
-	"math/rand"
-	"os"
-	"os/signal"
-	"sync"
-	"syscall"
+	"log/slog"
 	"time"
+
+	"imdb.tsv.analyzer/internal/analyzer"
 )
 
-func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Print("No .env file found")
-	}
-	rand.Seed(time.Now().UnixNano())
-}
-
-/**
-Filter params:
-	--id=tt0010442
-*/
 func main() {
 	start := time.Now()
-	wg := sync.WaitGroup{}
-	wg.Add(1)
+	ctx := context.Background()
+	slog.InfoContext(ctx, fmt.Sprintf("app started at %s", start.Format(time.RFC3339)))
 
-	opts := infra.InitOptions()
-
-	ctxTimeout, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(opts.MaxRunTime))
-	defer cancel()
-
-	sigs := make(chan os.Signal, 1)
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-
-	go func() {
-		<-sigs
-		cancel()
-	}()
-
-	imdb := infra.NewImdbws(opts.ImdbApiKey, opts.MaxApiRequests)
-	analyzer := infra.NewAnalyzer(&wg, &imdb, opts.Filters, opts.ThreadsCount)
-	file := infra.NewFileReader(&wg, opts.FilePath)
-
-	lineCans := analyzer.InitChan(ctxTimeout)
-
-	err := file.Open()
+	cfg, err := analyzer.NewConfig()
 	if err != nil {
-		infra.ShowErrorAndExit(err)
+		slog.ErrorContext(ctx, "error config loading", "err", err)
+		return
 	}
 
-	err = file.Read(ctxTimeout, lineCans)
+	app, err := analyzer.NewApp(*cfg)
 	if err != nil {
-		infra.ShowErrorAndExit(err)
+		slog.ErrorContext(ctx, "error app init", "err", err)
+		return
 	}
 
-	wg.Done()
-	wg.Wait()
-
-	err = file.Close()
+	err = app.Run(ctx)
 	if err != nil {
-		infra.ShowErrorAndExit(err)
+		slog.ErrorContext(ctx, "error app run", "err", err)
+		return
 	}
 
-	fmt.Println("lines count:", analyzer.Count)
-	fmt.Println("timer:", time.Since(start))
-
-	analyzer.Close(lineCans)
+	slog.InfoContext(ctx, "app finished in ", "time", time.Since(start).String())
 }

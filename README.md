@@ -1,41 +1,52 @@
-Before runing:
+# IMDb TSV Analyzer
 
-<code>
-cp .env.sample .env
-</code>
+This project provides an example of processing TSV files and verifying data against the IMDb API.
 
+The TSV file source is [https://datasets.imdbws.com/](https://datasets.imdbws.com/).
 
-Edit .env file and fill data for params:
+An API key can be generated from [https://www.omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx).
 
-- `FILE_PATH`
-- `IMDB_API_KEY`
+## Environment Variables
 
-Put data.tsv. file to folder: ./data/data.tsv
+-   `IMDBWS_API_KEY`: Your IMDb API key.
+-   `IMDBWS_API_URL`: The URL for the IMDb API.
+-   `IMDBWS_MAX_API_REQUESTS`: The maximum number of requests to be made to [omdbapi](https://www.omdbapi.com/). Defaults to `1000` and can be overridden with the `--maxApiRequests` flag.
+-   `MAX_RUN_TIME`: A timeout for the program's execution. No default.
+-   `THREADS_COUNT`: The number of worker threads for file processing. Defaults to `10`.
 
-There are filters
+## Usage
 
-	- id
-	- titleType
-	- primaryTitle
-	- originalTitle
-	- genre
-	- startYear
-	- endYear
-	- runtimeMinutes
-	- genres
-	- plotFilter 
+Place the TSV file on your local machine and use the `--file` flag to specify the path.
 
-To run use command:
+### Filters
 
-<code>
-go run main.go --id=tt0000002 --titleType=short
-</code>
+The following filters are available as command-line flags:
 
+-   `id`
+-   `titleType`
+-   `primaryTitle`
+-   `originalTitle`
+-   `genre`
+-   `startYear`
+-   `endYear`
+-   `runtimeMinutes`
+-   `genres`
+-   `plotFilter`
 
-Tests:
+### Example Command
 
-<code>make tests</code>
+Use the following command to run the program:
 
-Benchmark:
+```shell
+go run main.go --id=tt0000002 --titleType=short --file=data.tsv
+```
 
-<code>make bench</code>
+## Testing
+```shell
+make test
+```
+
+## Benchmarking
+```shell
+make bench
+```

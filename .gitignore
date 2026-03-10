@@ -1,3 +1,4 @@
 data/*.tsv
+data
 .idea
 .env

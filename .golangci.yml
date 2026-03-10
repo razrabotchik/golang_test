@@ -1,0 +1,29 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  enable:
+    - bodyclose
+    - copyloopvar
+    - errcheck
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - staticcheck
+    - unused
+    - whitespace
+  exclusions:
+    rules:
+      - path: (.+)_test\.go
+        linters:
+          - dupl
+          - mnd
+          - lll
+
+issues:
+  max-same-issues: 0
+  exclude-use-default: false
+
