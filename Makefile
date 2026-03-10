@@ -18,3 +18,6 @@ bench: ## Run benchmark tests
 lint: ## Run golangci-lint
 	@echo "Running linter..."
 	@golangci-lint run ./...
+
+build: ## Build binary
+	go build -o bin/app main.go
