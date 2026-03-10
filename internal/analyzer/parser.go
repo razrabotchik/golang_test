@@ -9,7 +9,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"imdb.tsv.analyzer/internal/pkg/imdbws"
+	"imdb.tsv.analyzer/pkg/imdbws"
 )
 
 type Imdbws interface {

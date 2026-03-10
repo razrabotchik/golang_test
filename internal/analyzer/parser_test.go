@@ -7,9 +7,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
 	"imdb.tsv.analyzer/internal/analyzer"
 	"imdb.tsv.analyzer/internal/analyzer/mocks"
-	"imdb.tsv.analyzer/internal/pkg/imdbws"
+	"imdb.tsv.analyzer/pkg/imdbws"
 )
 
 func Test_Analyze(t *testing.T) {

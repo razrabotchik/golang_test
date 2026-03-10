@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"imdb.tsv.analyzer/internal/pkg/imdbws"
+	"imdb.tsv.analyzer/pkg/imdbws"
 )
 
 func TestFilms_StoreAndGet(t *testing.T) {

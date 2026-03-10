@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"imdb.tsv.analyzer/internal/pkg/imdbws"
+	imdbws "imdb.tsv.analyzer/pkg/imdbws"
 )
 
 type App struct {

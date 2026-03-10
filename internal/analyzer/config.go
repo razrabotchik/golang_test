@@ -2,7 +2,8 @@ package analyzer
 
 import (
 	env "github.com/caarlos0/env/v9"
-	"imdb.tsv.analyzer/internal/pkg/imdbws"
+
+	"imdb.tsv.analyzer/pkg/imdbws"
 )
 
 type Config struct {

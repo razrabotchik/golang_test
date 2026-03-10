@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"imdb.tsv.analyzer/internal/pkg/imdbws"
+	"imdb.tsv.analyzer/pkg/imdbws"
 )
 
 type Films struct {
